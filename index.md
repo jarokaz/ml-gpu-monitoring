@@ -85,13 +85,14 @@ gcr.io/jk-mlops-dev/models-official \
  --eval_data_path=${DATA_DIR}/${TASK}/${TASK}_eval.tf_record \
  --bert_config_file=${BERT_DIR}/bert_config.json \
  --init_checkpoint=${BERT_DIR}/bert_model.ckpt \
- --train_batch_size=4 \
- --eval_batch_size=4 \
+ --train_batch_size=16 \
+ --eval_batch_size=16 \
  --steps_per_loop=1 \
  --learning_rate=2e-5 \
  --num_train_epochs=3 \
  --model_dir=${OUTPUT_DIR}/${TASK} \
- --distribution_strategy=mirrored' 
+ --distribution_strategy=mirrored' \
+ --num_gpus=2
 ```
 
 
