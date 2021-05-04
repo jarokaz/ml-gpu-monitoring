@@ -68,9 +68,35 @@ gcloud compute instances create $INSTANCE_NAME \
 
 ... work in progress
 
-## Configuring a distributed training regimen
 
 ## Executing a training job
+
+```
+docker run -it --rm --gpus all \
+--env OUTPUT_DIR=gs://jk-bert-lab-bucket/models \
+--env TASK=MNLI \
+--env DATA_DIR=gs://jk-bert-lab-bucket/data \
+--env BERT_DIR=gs://cloud-tpu-checkpoints/bert/keras_bert/uncased_L-24_H-1024_A-16 \
+gcr.io/jk-mlops-dev/models-official \
+'python models/official/nlp/bert/run_classifier.py \
+ --mode='train_and_eval' \
+ --input_meta_data_path=${DATA_DIR}/${TASK}/${TASK}_meta_data \
+ --train_data_path=${DATA_DIR}/${TASK}/${TASK}_train.tf_record \
+ --eval_data_path=${DATA_DIR}/${TASK}/${TASK}_eval.tf_record \
+ --bert_config_file=${BERT_DIR}/bert_config.json \
+ --init_checkpoint=${BERT_DIR}/bert_model.ckpt \
+ --train_batch_size=4 \
+ --eval_batch_size=4 \
+ --steps_per_loop=1 \
+ --learning_rate=2e-5 \
+ --num_train_epochs=3 \
+ --model_dir=${OUTPUT_DIR}/${TASK} \
+ --distribution_strategy=mirrored' 
+```
+
+
+
+
 
 ## Monitoring a training job
 
