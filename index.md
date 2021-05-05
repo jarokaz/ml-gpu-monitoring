@@ -83,7 +83,7 @@ unzip $MNLI_LOCAL_FOLDER/MNLI.zip -d $MNLI_LOCAL_FOLDER
 Create TF record files
 
 ```
-OUTPUT_DIR=gs://jk-bert-lab-bucket/datasetsR
+OUTPUT_DIR=gs://jk-bert-lab-bucket/datasets
 
 docker run -it --rm --gpus all \
 --volume ${MNLI_LOCAL_FOLDER}/MNLI:/data/MNLI \
