@@ -104,8 +104,10 @@ gcr.io/jk-mlops-dev/models-official \
 ## Executing a training job
 
 ```
+OUTPUT_DIR=gs://jk-bert-lab-bucket/models 
+
 docker run -it --rm --gpus all \
---env OUTPUT_DIR=gs://jk-bert-lab-bucket/models \
+--env OUTPUT_DIR=$OUTPUT_DIR \
 --env TASK=MNLI \
 --env DATA_DIR=gs://jk-bert-lab-bucket/data \
 --env BERT_DIR=gs://cloud-tpu-checkpoints/bert/keras_bert/uncased_L-24_H-1024_A-16 \
@@ -121,7 +123,7 @@ gcr.io/jk-mlops-dev/models-official \
  --eval_batch_size=32 \
  --steps_per_loop=1 \
  --learning_rate=2e-5 \
- --num_train_epochs=3 \
+ --num_train_epochs=8 \
  --model_dir=${OUTPUT_DIR}/${TASK} \
  --distribution_strategy=mirrored \
  --num_gpus=2'
