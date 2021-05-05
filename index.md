@@ -68,6 +68,38 @@ gcloud compute instances create $INSTANCE_NAME \
 
 ... work in progress
 
+## Preparing MNLI dataset
+
+Download and unzip the MNLI dataset
+
+```
+MNLI_ZIP_URL=https://dl.fbaipublicfiles.com/glue/data/MNLI.zip
+MNLI_LOCAL_FOLDER=/tmp
+
+curl -o $MNLI_LOCAL_FOLDER/MNLI.zip $MNLI_ZIP_URL
+unzip $MNLI_LOCAL_FOLDER/MNLI.zip -d $MNLI_LOCAL_FOLDER
+```
+
+Create TF record files
+
+```
+OUTPUT_DIR=gs://jk-bert-lab-bucket/datasetsR
+
+docker run -it --rm --gpus all \
+--volume ${MNLI_LOCAL_FOLDER}/MNLI:/data/MNLI \
+--env OUTPUT_DIR=${OUTPUT_DIR} \
+--env TASK=MNLI \
+--env BERT_DIR=gs://cloud-tpu-checkpoints/bert/keras_bert/uncased_L-24_H-1024_A-16 \
+gcr.io/jk-mlops-dev/models-official \
+'python models/official/nlp/data/create_finetuning_data.py \
+ --input_data_dir=/data/MNLI \
+ --vocab_file=${BERT_DIR}/vocab.txt \
+ --train_data_output_path=${OUTPUT_DIR}/${TASK}/${TASK}_train.tf_record \
+ --eval_data_output_path=${OUTPUT_DIR}/${TASK}/${TASK}_eval.tf_record \
+ --meta_data_file_path=${OUTPUT_DIR}/${TASK}/${TASK}_meta_data \
+ --fine_tuning_task_type=classification --max_seq_length=128 \
+ --classification_task_name=${TASK}'
+```
 
 ## Executing a training job
 
