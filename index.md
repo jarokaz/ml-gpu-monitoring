@@ -109,7 +109,7 @@ OUTPUT_DIR=gs://jk-bert-lab-bucket/models
 docker run -it --rm --gpus all \
 --env OUTPUT_DIR=$OUTPUT_DIR \
 --env TASK=MNLI \
---env DATA_DIR=gs://jk-bert-lab-bucket/data \
+--env DATA_DIR=gs://jk-bert-lab-bucket/datasets \
 --env BERT_DIR=gs://cloud-tpu-checkpoints/bert/keras_bert/uncased_L-24_H-1024_A-16 \
 gcr.io/jk-mlops-dev/models-official \
 'python models/official/nlp/bert/run_classifier.py \
