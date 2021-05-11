@@ -123,7 +123,7 @@ gcr.io/jk-mlops-dev/models-official \
  --eval_batch_size=32 \
  --steps_per_loop=1 \
  --learning_rate=2e-5 \
- --num_train_epochs=8 \
+ --num_train_epochs=3 \
  --model_dir=${OUTPUT_DIR}/${TASK} \
  --distribution_strategy=mirrored \
  --num_gpus=2'

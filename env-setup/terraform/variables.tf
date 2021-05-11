@@ -20,7 +20,6 @@ variable "name_prefix" {
 
 variable "machine_type" {
     description = "The node's machine type"
-    default     = "a2-highgpu-2g"
 }
 
 variable "network_name" {
@@ -44,4 +43,16 @@ variable "image_family" {
     description = "The Deep Learning image family"
     type        = string
     default     = "common-cu110"
+}
+
+variable "gpu_type" {
+    description = "GPU type"
+    type        = string
+    default     = null
+}
+
+variable "gpu_count" {
+    description = "GPU count"
+    type        = string
+    default     = null
 }

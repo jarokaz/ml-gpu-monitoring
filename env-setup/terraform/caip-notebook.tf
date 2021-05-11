@@ -25,6 +25,14 @@ resource "google_notebooks_instance" "notebook_instance" {
         image_family = var.image_family
     }
 
+    dynamic accelerator_config {
+      for_each = var.gpu_type != null ? [1] : []
+      content {
+          type = var.gpu_type
+          core_count = var.gpu_count
+      }
+    }
+
     install_gpu_driver  = true
     post_startup_script = local.post_startup_script_url
 
